@@ -3,77 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>浜松市避難所マップ</title>
-
-  <!-- ✅ スマホ対応 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
   <style>
-    /* ✅ スマホでも地図が全画面になるように */
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    #map {
-      height: 100vh;
-      width: 100vw;
-    }
-
-    /* ✅ スマホでズームボタンが押しやすいように */
-    .leaflet-control-zoom {
-      margin-top: 60px !important;
-    }
-
-    /* ✅ スマホでポップアップ文字を読みやすく */
-    .leaflet-popup-content {
-      font-size: 16px;
-      line-height: 1.4;
-    }
+    #map { height: 100vh; }
   </style>
 </head>
 <body>
-
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-
-<div id="map"></div>
+  <div id="map"></div>
 
 <script>
-  const map = L.map('map', {
-    zoomControl: true,
-    tap: true   // ✅ スマホのタップ操作を有効化
-  }).setView([34.7101, 137.7265], 13);
+  const map = L.map('map').setView([34.7101, 137.7265], 13);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
-  // ✅ カスタムアイコン
+  // カスタムアイコン
   const redIcon = new L.Icon({ iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png', iconSize: [32, 32] });
   const blueIcon = new L.Icon({ iconUrl: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png', iconSize: [32, 32] });
   const yellowIcon = new L.Icon({ iconUrl: 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png', iconSize: [32, 32] });
 
   let userLat, userLng;
 
-  // ✅ スマホで位置情報が拒否された場合の対策
-  function handleLocationError() {
-    alert("位置情報が取得できませんでした。地図は浜松市中心に表示します。");
-  }
-
   navigator.geolocation.getCurrentPosition(pos => {
     userLat = pos.coords.latitude;
     userLng = pos.coords.longitude;
 
-    // ✅ 現在地マーカー（赤）
-    L.marker([userLat, userLng], { icon: redIcon })
-      .addTo(map)
-      .bindPopup("あなたの現在地")
-      .openPopup();
 
-    // ✅ 避難所CSV読み込み
+    // 現在地マーカー（赤）
+    L.marker([userLat, userLng], { icon: redIcon }).addTo(map).bindPopup("あなたの現在地").openPopup();
+
+    // 避難所CSV読み込み
     Papa.parse("hinanjo.csv", {
       download: true,
       header: true,
@@ -92,28 +54,22 @@
           }
         });
 
-        // ✅ 最寄り避難所
+        // 最寄り避難所を特定
         shelters.sort((a, b) => a.distance - b.distance);
         const nearest = shelters[0];
 
         shelters.forEach(shelter => {
           const icon = (shelter === nearest) ? blueIcon : yellowIcon;
-          const googleMapsURL =
-            `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${shelter.lat},${shelter.lng}&travelmode=walking`;
+          const googleMapsURL = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${shelter.lat},${shelter.lng}&travelmode=walking`;
 
-          L.marker([shelter.lat, shelter.lng], { icon })
-            .addTo(map)
-            .bindPopup(`
-              <strong>${shelter.name}</strong><br>
-              ${shelter.address}<br>
-              <a href="${googleMapsURL}" target="_blank">Google Mapsで避難経路</a>
-            `);
+          L.marker([shelter.lat, shelter.lng], { icon }).addTo(map)
+            .bindPopup(`<strong>${shelter.name}</strong><br>${shelter.address}<br><a href="${googleMapsURL}" target="_blank">Google Mapsで避難経路</a>`);
         });
       }
     });
-  }, handleLocationError);
+  });
 
-  // ✅ 距離計算（Haversine式）
+  // 距離計算（Haversine式）
   function getDistance(lat1, lng1, lat2, lng2) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -125,6 +81,5 @@
     return R * c;
   }
 </script>
-
 </body>
 </html>
