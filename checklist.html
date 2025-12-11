@@ -2,88 +2,130 @@
 <html>
 <head>
   <title>防災グッズチェックリスト</title>
+
+  <!-- ✅ スマホ対応 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
-    body { font-family: sans-serif; }
-    h2 { margin-top: 30px; }
-    li.checked { background-color: #c8f7c5; }
-    button { margin-top: 20px; padding: 10px; font-size: 16px; }
+    body { 
+      font-family: sans-serif; 
+      padding: 10px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    h2 { 
+      margin-top: 25px; 
+      font-size: 22px;
+    }
+
+    ul {
+      padding-left: 0;
+      list-style: none;
+    }
+
+    li {
+      padding: 12px 8px;
+      font-size: 18px;
+      line-height: 1.4;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+    }
+
+    li.checked { 
+      background-color: #c8f7c5; 
+    }
+
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    #floatingCount {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #f0f0f0;
+      padding: 8px 12px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      font-weight: bold;
+      z-index: 1000;
+    }
+
+    /* ✅ スマホ最適化 */
+    @media screen and (max-width: 600px) {
+      h1 { font-size: 24px; }
+      h2 { font-size: 20px; }
+      li { font-size: 17px; padding: 10px 6px; }
+      #floatingCount { font-size: 14px; padding: 6px 10px; }
+    }
   </style>
 </head>
 <body>
+
 <div id="floatingCount">チェック済み: 0 / 0</div>
-<style>
-  #floatingCount {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background-color: #f0f0f0;
-    padding: 8px 12px;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
-    font-weight: bold;
-    z-index: 1000;
-  }
-</style>
 
-  <h1>防災グッズチェックリスト</h1>
+<h1>防災グッズチェックリスト</h1>
 
-  <h2>基本の備え</h2>
-  <ul id="basic">
-    <li><label><input type="checkbox"> 飲料水（1人1日3リットル）</label></li>
-    <li><label><input type="checkbox"> 食料（最低3日分）</label></li>
-    <li><label><input type="checkbox"> 携帯ラジオ（予備電池）</label></li>
-    <li><label><input type="checkbox"> 懐中電灯（予備電池）</label></li>
-    <li><label><input type="checkbox"> 携帯電話・充電器</label></li>
-  </ul>
+<h2>基本の備え</h2>
+<ul id="basic">
+  <li><label><input type="checkbox"> 飲料水（1人1日3リットル）</label></li>
+  <li><label><input type="checkbox"> 食料（最低3日分）</label></li>
+  <li><label><input type="checkbox"> 携帯ラジオ（予備電池）</label></li>
+  <li><label><input type="checkbox"> 懐中電灯（予備電池）</label></li>
+  <li><label><input type="checkbox"> 携帯電話・充電器</label></li>
+</ul>
 
-  <h2>生活用品</h2>
-  <ul id="life">
-    <li><label><input type="checkbox"> 現金・身分証明書</label></li>
-    <li><label><input type="checkbox"> 着替え・タオル</label></li>
-    <li><label><input type="checkbox"> 雨具・防寒具</label></li>
-    <li><label><input type="checkbox"> 筆記用具・メモ帳</label></li>
-    <li><label><input type="checkbox"> ビニール袋・ラップ</label></li>
-  </ul>
+<h2>生活用品</h2>
+<ul id="life">
+  <li><label><input type="checkbox"> 現金・身分証明書</label></li>
+  <li><label><input type="checkbox"> 着替え・タオル</label></li>
+  <li><label><input type="checkbox"> 雨具・防寒具</label></li>
+  <li><label><input type="checkbox"> 筆記用具・メモ帳</label></li>
+  <li><label><input type="checkbox"> ビニール袋・ラップ</label></li>
+</ul>
 
-  <h2>情報・連絡</h2>
-  <ul id="info">
-    <li><label><input type="checkbox"> 家族の連絡先メモ</label></li>
-    <li><label><input type="checkbox"> 地図・避難所情報</label></li>
-    <li><label><input type="checkbox"> ホイッスル（助けを呼ぶため）</label></li>
-  </ul>
+<h2>情報・連絡</h2>
+<ul id="info">
+  <li><label><input type="checkbox"> 家族の連絡先メモ</label></li>
+  <li><label><input type="checkbox"> 地図・避難所情報</label></li>
+  <li><label><input type="checkbox"> ホイッスル（助けを呼ぶため）</label></li>
+</ul>
 
-  <h2>衛生用品</h2>
-  <ul id="hygiene">
-    <li><label><input type="checkbox"> トイレットペーパー・ティッシュ</label></li>
-    <li><label><input type="checkbox"> 携帯トイレ</label></li>
-    <li><label><input type="checkbox"> マスク・消毒液</label></li>
-    <li><label><input type="checkbox"> 救急セット</label></li>
-  </ul>
+<h2>衛生用品</h2>
+<ul id="hygiene">
+  <li><label><input type="checkbox"> トイレットペーパー・ティッシュ</label></li>
+  <li><label><input type="checkbox"> 携帯トイレ</label></li>
+  <li><label><input type="checkbox"> マスク・消毒液</label></li>
+  <li><label><input type="checkbox"> 救急セット</label></li>
+</ul>
 
-  <h2>その他（あると便利）</h2>
-  <ul id="extra">
-    <li><label><input type="checkbox"> ウェットティッシュ</label></li>
-    <li><label><input type="checkbox"> ガムテープ</label></li>
-    <li><label><input type="checkbox"> 軍手</label></li>
-    <li><label><input type="checkbox"> 使い捨てカイロ</label></li>
-    <li><label><input type="checkbox"> サランラップ</label></li>
-  </ul>
-
+<h2>その他（あると便利）</h2>
+<ul id="extra">
+  <li><label><input type="checkbox"> ウェットティッシュ</label></li>
+  ￼<li><label><input type="checkbox"> ガムテープ</label></li>
+  <li><label><input type="checkbox"> 軍手</label></li>
+  <li><label><input type="checkbox"> 使い捨てカイロ</label></li>
+  <li><label><input type="checkbox"> サランラップ</label></li>
+</ul>
 
 <script>
   const checklistItems = document.querySelectorAll("input[type='checkbox']");
   const floatingCount = document.getElementById("floatingCount");
 
-  // チェック数表示エリア（通常表示）
   const countDisplay = document.createElement("p");
-  document.body.insertBefore(countDisplay, document.querySelector("button"));
+  document.body.appendChild(countDisplay);
 
-  // 最後にチェックした日付表示エリア
   const lastCheckedDisplay = document.createElement("p");
   lastCheckedDisplay.textContent = "最後にチェックした日付: なし";
-  document.body.insertBefore(lastCheckedDisplay, document.querySelector("button"));
+  document.body.appendChild(lastCheckedDisplay);
 
-  // チェック数を更新する関数
   function updateCheckCount() {
     const total = checklistItems.length;
     const checked = document.querySelectorAll("input[type='checkbox']:checked").length;
@@ -95,7 +137,6 @@
     }
   }
 
-  // 保存されたチェック状態と日付を読み込む
   checklistItems.forEach((item, index) => {
     const saved = localStorage.getItem("check_" + index);
     if (saved === "true") {
@@ -112,27 +153,22 @@
         li.classList.remove("checked");
       }
 
-      // 日付を保存
       const now = new Date();
       const dateStr = now.toLocaleString("ja-JP");
       localStorage.setItem("lastCheckedDate", dateStr);
       lastCheckedDisplay.textContent = "最後にチェックした日付: " + dateStr;
 
-      // チェック数更新
       updateCheckCount();
     });
   });
 
-  // 最後にチェックした日付を表示
   const savedDate = localStorage.getItem("lastCheckedDate");
   if (savedDate) {
     lastCheckedDisplay.textContent = "最後にチェックした日付: " + savedDate;
   }
 
-  // 初期表示
   updateCheckCount();
 </script>
 
-  </body>
+</body>
 </html>
-
